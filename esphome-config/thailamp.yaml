@@ -1,0 +1,9 @@
+---
+substitutions:
+  id: thailamp
+  platform: ESP8266
+  board: esp01_1m
+
+<<: !include libs/common.yaml
+
+<<: !include libs/sonoff.yaml

@@ -1,0 +1,16 @@
+---
+status_led:
+  pin:
+    number: GPIO13
+    inverted: yes
+
+output:
+  - platform: gpio
+    id: light_relay
+    pin: GPIO12
+
+light:
+  - platform: binary
+    id: ${id}
+    name: ${id}
+    output: light_relay

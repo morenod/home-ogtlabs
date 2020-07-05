@@ -1,0 +1,64 @@
+---
+substitutions:
+  id: esp32
+  platform: ESP32
+  board: nodemcu-32s
+
+<<: !include libs/common.yaml
+
+esp32_ble_tracker:
+  scan_parameters:
+    active: false
+
+binary_sensor:
+  - platform: status
+    name: "Bluetooth Hub Status"
+    device_class: connectivity
+
+#deep_sleep:
+#  run_duration: 65s
+#  sleep_duration: 15min
+
+sensor:
+  - platform: wifi_signal
+    name: "Bluetooth Hub Wifi Signal"
+    update_interval: 3600s
+  - platform: adc
+    pin: 34
+    internal: true
+    attenuation: 11db
+    id: "battery"
+    update_interval: 3600s
+  - platform: template
+    name: "esp32.battery_level"
+    unit_of_measurement: '%'
+    update_interval: 3600s
+    lambda: |-
+      return ((id(battery).state /3.90) * 100.00);
+  - platform: xiaomi_lywsd03mmc
+    mac_address: !secret xiaomi1_mac
+    bindkey: !secret xiaomi1_key
+    temperature:
+      name: "Xiaomi1 Temp"
+    humidity:
+      name: "Xiaomi1 Humidity"
+    battery_level:
+      name: "Xiaomi1 Battery"
+  - platform: xiaomi_lywsd03mmc
+    mac_address: !secret xiaomi2_mac
+    bindkey: !secret xiaomi2_key
+    temperature:
+      name: "Xiaomi2 Temp"
+    humidity:
+      name: "Xiaomi2 Humidity"
+    battery_level:
+      name: "Xiaomi2 Battery"
+  - platform: xiaomi_lywsd03mmc
+    mac_address: !secret xiaomi3_mac
+    bindkey: !secret xiaomi3_key
+    temperature:
+      name: "Xiaomi3 Temp"
+    humidity:
+      name: "Xiaomi3 Humidity"
+    battery_level:
+      name: "Xiaomi3 Battery"
